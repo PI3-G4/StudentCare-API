@@ -10,7 +10,12 @@ class Database:
         password='Darkicesky466')
 
         mycursor = mydb.cursor()
-        mycursor.execute("CREATE DATABASE if not exists studantcare")
+
+        mycursor.execute("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'studantcare'")
+        myresult = mycursor.fetchall()
+        if myresult [0][0] == 0:
+            mycursor.execute("CREATE DATABASE if not exists studantcare")
+            self.execute()
 
     def execute(self):
         mydb = mysql.connector.connect(
@@ -21,15 +26,17 @@ class Database:
 
         mycursor = mydb.cursor()
 
-        mycursor.execute("CREATE TABLE if not exists  institution (IDINSTITUTION INT PRIMARY KEY AUTO_INCREMENT  ,EMAIL VARCHAR(255) NOT NULL , NAME VARCHAR(255) NOT NULL, PASSWORD VARCHAR(64) NOT NULL, ID_STUDENT INT, ID_SURVEY INT)")
+
+        mycursor.execute("CREATE TABLE if not exists  institution (IDINSTITUTION INT PRIMARY KEY AUTO_INCREMENT  ,EMAIL VARCHAR(255) NOT NULL , NAME VARCHAR(255) NOT NULL, PASSWORD VARCHAR(64) NOT NULL)")
 
         mycursor.execute("CREATE TABLE if not exists  survey (IDSURVEY INT PRIMARY KEY AUTO_INCREMENT, NAME VARCHAR(255) NOT NULL, JSON_DATA BLOB)")
 
-        mycursor.execute("CREATE TABLE if not exists  student (IDSTUDENT INT PRIMARY KEY AUTO_INCREMENT, EMAIL VARCHAR(255) NOT NULL , NAME VARCHAR(255) NOT NULL, PASSWORD VARCHAR(64) NOT NULL, ID_SURVEY INT)")
+        mycursor.execute("CREATE TABLE if not exists  student (IDSTUDENT INT PRIMARY KEY AUTO_INCREMENT, EMAIL VARCHAR(255) NOT NULL , NAME VARCHAR(255) NOT NULL, PASSWORD VARCHAR(64) NOT NULL,ID_INSTITUTION INT)")
 
+        mycursor.execute("CREATE TABLE if not exists surveystudents (IDSURVEY INT, IDSTUDENT INT, JSON_DATA BLOB)")
 
-        mycursor.execute("ALTER TABLE  student  ADD CONSTRAINT FK_SURVEY_STUDENT FOREIGN KEY(ID_SURVEY) REFERENCES survey(IDSURVEY)")
+        mycursor.execute("ALTER TABLE  student  ADD CONSTRAINT FK_INSTITUTION_STUDENT FOREIGN KEY(ID_INSTITUTION) REFERENCES institution(IDINSTITUTION)")
 
-        mycursor.execute("ALTER TABLE institution ADD CONSTRAINT FK_STUDENT_INSTITUTION FOREIGN KEY(ID_STUDENT) REFERENCES student(IDSTUDENT)")
+        mycursor.execute("ALTER TABLE  surveystudents  ADD CONSTRAINT FK_SURVEY FOREIGN KEY(IDSURVEY) REFERENCES survey(IDSURVEY)")
 
-        mycursor.execute("ALTER TABLE institution ADD CONSTRAINT FK_SURVEY_INSTITUTION FOREIGN KEY(ID_SURVEY) REFERENCES survey(IDSURVEY)")
+        mycursor.execute("ALTER TABLE  surveystudents  ADD CONSTRAINT FK_STUDENT FOREIGN KEY(IDSTUDENT) REFERENCES student(IDSTUDENT)")
