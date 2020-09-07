@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 import mysql.connector
+from Environ import Env
 from Databases import Database
 
 app = Flask(__name__)
@@ -7,11 +8,12 @@ app.url_map.strict_slashes = False
 
 @app.route('/student', methods=['POST'])
 def add_student():
+
     mydb = mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password='Darkicesky466',
-        database="studantcare"
+        host=f'{Env.host}',
+        user=f'{Env.user}',
+        password=f'{Env.password}',
+        database=f'{Env.database}'
     )
 
     mycursor = mydb.cursor()
@@ -39,11 +41,12 @@ def add_student():
 
 @app.route('/student-login', methods=['POST'])
 def login_student():
+
     mydb = mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password='Darkicesky466',
-        database="studantcare"
+        host=f'{Env.host}',
+        user=f'{Env.user}',
+        password=f'{Env.password}',
+        database=f'{Env.database}'
     )
 
     mycursor = mydb.cursor()
@@ -61,13 +64,15 @@ def login_student():
         print(error.args)
         return jsonify({}), 500
 
+
 @app.route('/institution', methods=['POST'])
 def add_institution():
+
     mydb = mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password='Darkicesky466',
-        database="studantcare"
+        host=f'{Env.host}',
+        user=f'{Env.user}',
+        password=f'{Env.password}',
+        database=f'{Env.database}'
     )
 
     mycursor = mydb.cursor()
@@ -95,11 +100,12 @@ def add_institution():
 
 @app.route('/institution-login', methods=['POST'])
 def login_institution():
+
     mydb = mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password='Darkicesky466',
-        database="studantcare"
+        host=f'{Env.host}',
+        user=f'{Env.user}',
+        password=f'{Env.password}',
+        database=f'{Env.database}'
     )
 
     mycursor = mydb.cursor()
@@ -118,8 +124,12 @@ def login_institution():
         return jsonify({}), 500
 
 
-
 if __name__ == '__main__':
+    created = Database()
+    created.create()
+    app.run()
+
+else:
     created = Database()
     created.create()
     app.run()

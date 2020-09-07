@@ -1,13 +1,15 @@
 import mysql.connector
+from Environ import Env
 
 
 class Database:
 
     def create(self):
         mydb = mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password='Darkicesky466')
+            host=f'{Env.host}',
+            user=f'{Env.user}',
+            password=f'{Env.password}'
+        )
 
         mycursor = mydb.cursor()
 
@@ -19,10 +21,11 @@ class Database:
 
     def execute(self):
         mydb = mysql.connector.connect(
-        host='127.0.0.1',
-        user='root',
-        password='Darkicesky466',
-        database="studantcare")
+            host=f'{Env.host}',
+            user=f'{Env.user}',
+            password=f'{Env.password}',
+            database=f'{Env.database}'
+        )
 
         mycursor = mydb.cursor()
 
