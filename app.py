@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 import mysql.connector
-from Environ import Env
+from Environ_model import Env
 from Databases import Database
 
 app = Flask(__name__)
@@ -52,18 +52,53 @@ def login_student():
     mycursor = mydb.cursor()
     val = (request.json['email'], request.json['password'])
     sql = "SELECT count(*) FROM student WHERE email = %s and password = %s"
+    sql2 = "SELECT IDSTUDENT as id, NAME as name, EMAIL as email FROM student WHERE EMAIL = %s"
+    val2=[request.json['email']]
     try:
         mycursor.execute(sql,val)
         myresult = mycursor.fetchall()
         if myresult[0][0] == 0:
             return  jsonify({}), 400
         elif myresult[0][0] >= 1:
-            return jsonify({}), 200
+            mycursor = mydb.cursor(dictionary=True)
+            mycursor.execute(sql2,val2)
+            myresult2 = mycursor.fetchall()
+            return jsonify(myresult2[0]), 200
+
 
     except Exception as error:
         print(error.args)
         return jsonify({}), 500
 
+
+@app.route('/student-list',methods=['GET'])
+def list_student():
+    mydb = mysql.connector.connect(
+        host=f'{Env.host}',
+        user=f'{Env.user}',
+        password=f'{Env.password}',
+        database=f'{Env.database}'
+    )
+    mycursor = mydb.cursor()
+    sql = "SELECT IDSTUDENT as id, NAME as name, EMAIL as email FROM student WHERE ID_INSTITUTION = %s "
+    val = [request.json['id']]
+    try:
+        mycursor.execute(sql,val)
+        myresult = mycursor.fetchall()
+        payload = []
+        content = {}
+        for result in myresult:
+            content = {'id': result[0], 'name': result[1], 'email': result[2]}
+            payload.append(content)
+            content = {}
+        if myresult[0][0] == 0:
+            return  jsonify({}), 400
+        elif myresult[0][0] >= 1:
+            return jsonify(payload), 200
+
+    except Exception as error:
+        print(error.args)
+        return jsonify({}), 500
 
 @app.route('/institution', methods=['POST'])
 def add_institution():
@@ -111,25 +146,26 @@ def login_institution():
     mycursor = mydb.cursor()
     val = (request.json['email'], request.json['password'])
     sql = "SELECT count(*) FROM institution WHERE email = %s and password = %s"
+    sql2 = "SELECT IDINSTITUTION as id, NAME as name , EMAIL as email FROM institution WHERE EMAIL = %s"
+    val2 = [request.json['email']]
     try:
         mycursor.execute(sql,val)
         myresult = mycursor.fetchall()
         if myresult[0][0] == 0:
             return  jsonify({}), 400
         elif myresult[0][0] >= 1:
-            return jsonify({}), 200
+            mycursor = mydb.cursor(dictionary=True)
+            mycursor.execute(sql2,val2)
+            myresult2 = mycursor.fetchall()
+            return jsonify(myresult2[0]), 200
 
     except Exception as error:
         print(error.args)
         return jsonify({}), 500
 
 
-if __name__ == '__main__':
-    created = Database()
-    created.create()
-    app.run()
 
-else:
+if __name__ == '__main__':
     created = Database()
     created.create()
     app.run()
