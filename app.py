@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, request
 import mysql.connector
-from Environ_model import Env
+from Environ import Env
 from Databases import Database
 
 app = Flask(__name__)
