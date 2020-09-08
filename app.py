@@ -71,8 +71,8 @@ def login_student():
         return jsonify({}), 500
 
 
-@app.route('/student-list',methods=['GET'])
-def list_student():
+@app.route('/institution/<id>/student',methods=['GET'])
+def list_student(id):
     mydb = mysql.connector.connect(
         host=f'{Env.host}',
         user=f'{Env.user}',
@@ -80,10 +80,9 @@ def list_student():
         database=f'{Env.database}'
     )
     mycursor = mydb.cursor()
-    sql = "SELECT IDSTUDENT as id, NAME as name, EMAIL as email FROM student WHERE ID_INSTITUTION = %s "
-    val = [request.json['id']]
+    sql = "SELECT IDSTUDENT as id, NAME as name, EMAIL as email FROM student WHERE ID_INSTITUTION = %s"
     try:
-        mycursor.execute(sql,val)
+        mycursor.execute(sql,[id])
         myresult = mycursor.fetchall()
         payload = []
         content = {}
