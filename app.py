@@ -6,6 +6,7 @@ from Databases import Database
 app = Flask(__name__)
 app.url_map.strict_slashes = False
 
+
 @app.route('/student', methods=['POST'])
 def add_student():
 
@@ -21,7 +22,7 @@ def add_student():
 
     val = (request.json['email'], request.json['password'], request.json['name'],request.json['id_institution'])
 
-    val2 =  (request.json['email'], request.json['password'])
+    val2 = (request.json['email'], request.json['password'])
 
     sql2 = "SELECT count(*) FROM student WHERE email = %s and password = %s"
     try:
@@ -65,7 +66,6 @@ def login_student():
             myresult2 = mycursor.fetchall()
             return jsonify(myresult2[0]), 200
 
-
     except Exception as error:
         print(error.args)
         return jsonify({}), 500
@@ -85,19 +85,18 @@ def list_student(id):
         mycursor.execute(sql,[id])
         myresult = mycursor.fetchall()
         payload = []
-        content = {}
         for result in myresult:
             content = {'id': result[0], 'name': result[1], 'email': result[2]}
             payload.append(content)
-            content = {}
-        if myresult[0][0] == 0:
-            return  jsonify({}), 400
-        elif myresult[0][0] >= 1:
+        if len(payload) == 0:
+            return jsonify({}), 400
+        elif len(payload) >= 1:
             return jsonify(payload), 200
 
     except Exception as error:
         print(error.args)
         return jsonify({}), 500
+
 
 @app.route('/institution', methods=['POST'])
 def add_institution():
@@ -151,7 +150,7 @@ def login_institution():
         mycursor.execute(sql,val)
         myresult = mycursor.fetchall()
         if myresult[0][0] == 0:
-            return  jsonify({}), 400
+            return jsonify({}), 400
         elif myresult[0][0] >= 1:
             mycursor = mydb.cursor(dictionary=True)
             mycursor.execute(sql2,val2)
@@ -161,7 +160,6 @@ def login_institution():
     except Exception as error:
         print(error.args)
         return jsonify({}), 500
-
 
 
 if __name__ == '__main__':
