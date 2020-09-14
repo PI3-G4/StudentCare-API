@@ -13,10 +13,10 @@ class Database:
 
         mycursor = mydb.cursor()
 
-        mycursor.execute("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'studantcare'")
+        mycursor.execute("SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'studentcare'")
         myresult = mycursor.fetchall()
         if myresult [0][0] == 0:
-            mycursor.execute("CREATE DATABASE if not exists studantcare")
+            mycursor.execute("CREATE DATABASE if not exists studentcare")
             self.execute()
 
     def execute(self):

@@ -166,3 +166,8 @@ if __name__ == '__main__':
     created = Database()
     created.create()
     app.run()
+
+else:
+    created = Database()
+    created.create()
+    app.run()
