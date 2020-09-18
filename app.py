@@ -40,7 +40,7 @@ def add_survey():
         return jsonify({}), 500
 
 
-@app.route('/list_survey/',methods=['GET'])
+@app.route('/survey/', methods=['GET'])
 def list_survey():
     mydb = mysql.connector.connect(
         host=f'{Env.host}',
@@ -91,7 +91,7 @@ def add_surveystudent():
         return jsonify({}), 500
 
 
-@app.route('/suveystudents/survey-by-student-id/<id_student>', methods=['GET'])
+@app.route('/student/<id_student>/survey', methods=['GET'])
 def list_suverystudents(id_student):
     mydb = mysql.connector.connect(
         host=f'{Env.host}',
@@ -100,13 +100,13 @@ def list_suverystudents(id_student):
         database=f'{Env.database}'
     )
     mycursor = mydb.cursor()
-    sql = "SELECT IDSTUDENT, IDSURVEY, JSON_DATA  FROM surveystudents WHERE IDSTUDENT = %s "
+    sql = "SELECT surveystudents.IDSURVEY, NAME, surveystudents.JSON_DATA  FROM surveystudents, survey WHERE IDSTUDENT = %s and survey.IDSURVEY=surveystudents.IDSURVEY"
     try:
         mycursor.execute(sql, [id_student])
         myresult = mycursor.fetchall()
         payload = []
         for result in myresult:
-            content = {'id survey': result[1], 'survey': result[2]}
+            content = {'id': result[0], 'name': result[1], 'survey': result[2]}
             payload.append(content)
         if myresult[0][0] == 0:
             return jsonify({}), 400
