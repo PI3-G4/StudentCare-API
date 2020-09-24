@@ -57,10 +57,7 @@ def list_survey():
         for result in myresult:
             content = {'id': result[0], 'name': result[1], 'survey': result[2]}
             payload.append(content)
-        if myresult[0][0] == 0:
-            return  jsonify({}), 400
-        elif myresult[0][0] >= 1:
-            return jsonify(payload), 200
+        return jsonify(payload), 200
 
     except Exception as error:
         print(error.args)
@@ -108,10 +105,8 @@ def list_suverystudents(id_student):
         for result in myresult:
             content = {'id': result[0], 'name': result[1], 'survey': result[2]}
             payload.append(content)
-        if myresult[0][0] == 0:
-            return jsonify({}), 400
-        elif myresult[0][0] >= 1:
-            return jsonify(payload), 200
+
+        return jsonify(payload), 200
 
     except Exception as error:
         print(error.args)
