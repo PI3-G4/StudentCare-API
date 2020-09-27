@@ -77,7 +77,7 @@ def add_surveystudent():
     mycursor = mydb.cursor()
     sql = "INSERT INTO surveystudents (IDSURVEY, IDSTUDENT,JSON_DATA) VALUES (%s, %s, %s)"
 
-    sql2 = "SELECT IDSURVEY, IDSTUDENT  FROM surveystudents WHERE  IDSURVEY = %s AND IDSTUDENT = %s"
+    sql2 = "SELECT count(*)  FROM surveystudents WHERE  IDSURVEY = %s AND IDSTUDENT = %s"
 
     sql3 = "UPDATE surveystudents SET JSON_DATA = %s WHERE IDSURVEY = %s and IDSTUDENT = %s"
 
@@ -90,7 +90,7 @@ def add_surveystudent():
     try:
         mycursor.execute(sql2,val2)
         myresult = mycursor.fetchall()
-        if myresult[0][0] == 1 and myresult[0][1] == 1 :
+        if myresult[0][0] == 1:
             mycursor.execute(sql3,val3)
             mydb.commit()
             return jsonify({}), 202
