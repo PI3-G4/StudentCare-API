@@ -77,8 +77,24 @@ def add_surveystudent():
     mycursor = mydb.cursor()
     sql = "INSERT INTO surveystudents (IDSURVEY, IDSTUDENT,JSON_DATA) VALUES (%s, %s, %s)"
 
+    sql2 = "SELECT IDSURVEY, IDSTUDENT  FROM surveystudents WHERE  IDSURVEY = %s AND IDSTUDENT = %s"
+
+    sql3 = "UPDATE surveystudents SET JSON_DATA = %s WHERE IDSURVEY = %s and IDSTUDENT = %s"
+
     val = (request.json['IDSURVEY'], request.json['IDSTUDENT'], request.json['json_data'])
+
+    val2 = (request.json['IDSURVEY'], request.json['IDSTUDENT'])
+
+    val3 = (request.json['json_data'],request.json['IDSURVEY'],request.json['IDSTUDENT'])
+
     try:
+        mycursor.execute(sql2,val2)
+        myresult = mycursor.fetchall()
+        if myresult[0][0] == 1 and myresult[0][1] == 1 :
+            mycursor.execute(sql3,val3)
+            mydb.commit()
+            return jsonify({}), 202
+        else:
             mycursor.execute(sql,val)
             mydb.commit()
             return jsonify({}), 201
