@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import mysql.connector
 from Environ import Env
 from Databases import Database
+from ml import MachineLearning
 
 app = Flask(__name__)
 app.url_map.strict_slashes = False
@@ -287,6 +288,16 @@ def login_institution():
 if __name__ == '__main__':
     created = Database()
     created.create()
+
+    #ML
+    model = MachineLearning()
+    ml = model.model
+    data = [[0, 15,  0,  1,  0,  4,  2,  1,  2,  0,  0,  1,  3,  0,  1,  0,
+         0,  0,  0,  0,  0,  3,  2,  2,  1,  1,  5,  0]]
+    y_pred_train = ml.predict(data)
+    print(y_pred_train)
+
+
     app.run()
 
 else:
