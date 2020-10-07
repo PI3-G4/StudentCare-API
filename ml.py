@@ -15,17 +15,7 @@ class MachineLearning:
         df_mat = pd.read_csv('./data/student-mat2.csv', sep=';')
         df_por = pd.read_csv('./data/student-por2.csv', sep=';')
 
-        old_data_mat =  pd.read_csv('./data/student-mat.csv', sep=';')
-        remove = old_data_mat.G1 > 6.7
-        old_data_mat = old_data_mat.loc[~remove]
-
-        old_data_port =  pd.read_csv('./data/student-por.csv', sep=';')
-        remove = old_data_port.G1 > 6.7
-        old_data_port = old_data_port.loc[~remove]
-
         df = pd.concat([df_mat, df_por, old_data_mat, old_data_port], axis=0)
-
-        print(df)
 
         df = df.drop(['school', 'paid', 'fatherd'], axis=1)
 
@@ -48,7 +38,6 @@ class MachineLearning:
         def setCategoryColumns(column, categors):
             return column.astype(CategoricalDtype(categories=categors, ordered=True)).cat.codes
 
-        print(df.head())
         df.sex = setCategoryColumns(df.sex, sex_category)
         df.address = setCategoryColumns(df.address, address_category)
         df.famsize = setCategoryColumns(df.famsize, famsize_category)
@@ -64,15 +53,12 @@ class MachineLearning:
         df.higher = setCategoryColumns(df.higher, higher_category)
         df.internet = setCategoryColumns(df.internet, internet_category)
         df.romantic = setCategoryColumns(df.romantic, romantic_category)
-        print(df.head(6))
 
         labels = ['G1', 'G2', 'G3']
         for i in labels:
             df.loc[(df[i] >= 0) & (df[i] <= 6.7), i] = 1
             df.loc[(df[i] >= 6.8) & (df[i] <= 13.4), i] = 2
             df.loc[(df[i] >= 13.5) & (df[i] <= 20), i] = 3
-
-        print(df.head(6))
 
         return df
 
