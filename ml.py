@@ -16,9 +16,15 @@ class MachineLearning:
         df_mat = pd.read_csv('./data/student-mat2.csv', sep=';')
         df_por = pd.read_csv('./data/student-por2.csv', sep=';')
 
-        df = pd.concat([df_mat, df_por], axis=0)
+        df_por_old = pd.read_csv('./data/student-por.csv', sep=';')
+        df_por_old = df_por_old.loc[(df_por_old.G1 >= 0) & (df_por_old.G1 <= 6.7)]
 
-        df = df.drop(['school', 'paid'], axis=1)
+        df_mat_old = pd.read_csv('./data/student-mat.csv', sep=';')
+        df_mat_old = df_mat_old.loc[(df_mat_old.G1 >= 0) & (df_mat_old.G1 <= 6.7)]
+
+        df = pd.concat([df_mat, df_por,df_por_old, df_mat_old], axis=0)
+
+        df = df.drop(['school', 'paid', 'fatherd'], axis=1)
 
         sex_category = ['F', 'M']
         address_category = ['U', 'R']
