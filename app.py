@@ -303,12 +303,14 @@ if __name__ == '__main__':
 else:
     created = Database()
     created.create()
-    app.run()
     # ML
     model = MachineLearning()
-    ml = model.model[0]
+    ml = model.model
     data = [[0, 15, 0, 1, 0, 4, 2, 1, 2, 0, 0, 1, 3, 0, 1, 0,
              0, 0, 0, 0, 0, 3, 2, 2, 1, 1, 5, 0]]
     y_pred_train = ml.predict(data)
     print(y_pred_train)
     print(model.acuracia())
+
+
+    app.run()
