@@ -82,22 +82,52 @@ def add_surveystudent():
 
     sql3 = "UPDATE surveystudents SET JSON_DATA = %s WHERE IDSURVEY = %s and IDSTUDENT = %s"
 
+    sql4 = "SELECT name FROM survey WHERE IDSURVEY = %s"
+
+    sql5 = "UPDATE surveystudents SET RESULT = %s WHERE IDSURVEY = %s and IDSTUDENT = %s"
+
+    sql6 = "UPDATE survey SET SCORE = %s WHERE IDSURVEY = %s"
+
     val = (request.json['IDSURVEY'], request.json['IDSTUDENT'], request.json['json_data'])
 
     val2 = (request.json['IDSURVEY'], request.json['IDSTUDENT'])
 
     val3 = (request.json['json_data'],request.json['IDSURVEY'],request.json['IDSTUDENT'])
 
+    val4 = request.json['IDSURVEY']
+
+
+
+
     try:
+        def pesquisa_nome(data):
+            mycursor.execute(sql4,val4)
+            myresult2 = mycursor.fetchall()
+            if myresult2 == 'Pesquisa studentcare':
+                from Avaliacao.Pesquisa1 import Pesquisa1
+                x = Pesquisa1()
+                z = x.convesao(data)
+                model = MachineLearning()
+                ml = model.model
+                datas = [z]
+                y_pred_train = ml.predict(datas)
+                print(y_pred_train)
+                print(model.acuracia())
+                val5 = (y_pred_train, request.json['IDSURVEY'],request.json['IDSTUDENT'])
+                mycursor.execute(sql5,val5)
+                mydb.commit()
+                ###val6 = (model.acuracia(), request.json['IDSURVEY'])
         mycursor.execute(sql2,val2)
         myresult = mycursor.fetchall()
         if myresult[0][0] == 1:
             mycursor.execute(sql3,val3)
             mydb.commit()
+            pesquisa_nome(request.json['IDSURVEY'])
             return jsonify({}), 202
         else:
             mycursor.execute(sql,val)
             mydb.commit()
+            pesquisa_nome(request.json['IDSURVEY'])
             return jsonify({}), 201
 
     except Exception as error:
@@ -311,6 +341,5 @@ else:
     y_pred_train = ml.predict(data)
     print(y_pred_train)
     print(model.acuracia())
-
 
     app.run()

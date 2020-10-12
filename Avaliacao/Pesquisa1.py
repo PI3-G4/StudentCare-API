@@ -230,36 +230,58 @@ class Pesquisa1 :
         try:
             if 1 <= int(conv[21]) <= 5:
                 famrel_category = int(conv[21])
+            elif int(conv[21]) == 0:
+                famrel_category = 1
+            else:
+                return None
         except:
             return None
 
         try:
             if 1 <= int(conv[22]) <= 5:
                 freetime_category = int(conv[22])
+            elif int(conv[22]) == 0:
+                freetime_category = 1
+            else:
+                return None
         except:
             return None
 
         try:
             if 1 <= int(conv[23]) <= 5:
                 goout_category = int(conv[23])
+            elif int(conv[23]) == 0:
+                goout_category = 1
+            else:
+                return None
         except:
             return None
 
         try:
             if 1 <= int(conv[24]) <= 5:
                 dalc_category = int(conv[24])
+            elif int(conv[24]) == 0:
+                dalc_category = 1
+            else:
+                return None
         except:
             return None
 
         try:
             if 1 <= int(conv[25]) <= 5:
                 walc_category = int(conv[25])
+            elif int(conv[25]) == 0:
+                walc_category = 1
+            else:
+                return None
         except:
             return None
 
         try:
             if 1 <= int(conv[26]) <= 5:
                 health_category = int(conv[26])
+            elif int(conv[26]) == 0:
+                health_category = 1
         except:
             return None
 
