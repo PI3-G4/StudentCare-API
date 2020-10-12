@@ -40,6 +40,8 @@ class Pesquisa1 :
                 sex_category = 0
             else:
                 sex_category = 1
+        else:
+            return None
 
         try:
             if 15 <= int(conv[1]) <= 22:
@@ -52,18 +54,24 @@ class Pesquisa1 :
                 address_category = 0
             else:
                 address_category = 1
+        else:
+            return None
 
         if (conv[3] == 'Menor ou igual a 3 pessoas') or (conv[3] == 'Mais de 3 pessoas'):
             if conv[3] == 'Menos de 3 pessoas':
                 famsize_category = 0
             else:
                 famsize_category = 1
+        else:
+            return None
 
         if (conv[4] == 'Juntos') or (conv[4] == 'Separados'):
             if conv[4] == 'Juntos':
                 Pstatus_category = 0
             else:
                 Pstatus_category = 1
+        else:
+            return None
 
         if conv[5] == 'Nenhuma':
                 Medu_category = 0
@@ -75,6 +83,8 @@ class Pesquisa1 :
                 Medu_category = 3
         elif conv[5] == 'Educação Superior':
                 Medu_category = 4
+        else:
+            return None
 
 
         if conv[6] == 'Nenhuma':
@@ -87,6 +97,8 @@ class Pesquisa1 :
                 Fedu_category = 3
         elif conv[6] == 'Educação Superior':
                 Fedu_category = 4
+        else:
+            return None
 
         if conv[7] == 'Professora':
                 Mjob_category = 0
@@ -98,6 +110,8 @@ class Pesquisa1 :
                 Mjob_category = 3
         elif conv[7] == 'Outro':
                 Mjob_category = 4
+        else:
+            return None
 
         if conv[8] == 'Professor':
             Fjob_category = 0
@@ -109,6 +123,8 @@ class Pesquisa1 :
             Fjob_category = 3
         elif conv[8] == 'Outro':
             Fjob_category = 4
+        else:
+            return None
 
 
         if conv[9] == 'Perto de casa':
@@ -119,6 +135,8 @@ class Pesquisa1 :
             reason_category = 2
         elif conv[9] == 'Outro':
             reason_category = 3
+        else:
+            return None
 
 
         if conv[10] == 'Mãe':
@@ -127,6 +145,8 @@ class Pesquisa1 :
             guardian_category = 1
         elif conv[10] == 'Outro':
             guardian_category = 2
+        else:
+            return None
 
         if conv[11] == 'Menos que 15 minutos':
             traveltime_category  = 1
@@ -136,6 +156,8 @@ class Pesquisa1 :
             traveltime_category  = 3
         elif conv[11] == 'Mais que 1 hora':
             traveltime_category  = 4
+        else:
+            return None
 
         if conv[12] == 'Menos que 2 horas':
             studytime_category = 1
@@ -145,47 +167,65 @@ class Pesquisa1 :
             studytime_category = 3
         elif conv[12] == 'Mais que 10 horas':
             studytime_category = 4
+        else:
+            return None
 
         if conv[13].isnumeric():
             if 0 <= int(conv[13]) <= 3:
                 failures_category = int(conv[13])
             else:
                 failures_category = 4
+        else:
+            return None
 
         if conv[14] == 'Sim' :
             schoolsup_category = 1
         elif conv[14] == 'Não':
             schoolsup_category = 0
+        else:
+            return None
 
         if conv[15] == 'Sim':
             famsup_category = 1
         elif conv[15] == 'Não':
             famsup_category = 0
+        else:
+            return None
 
         if conv[16] == 'Sim':
             activities_category = 1
         elif conv[16] == 'Não':
             activities_category = 0
+        else:
+            return None
 
         if conv[17] == 'Sim':
             nursery_category = 1
         elif conv[17] == 'Não':
             nursery_category = 0
+        else:
+            return None
 
         if conv[18] == 'Sim':
             higher_category = 1
         elif conv[18] == 'Não':
             higher_category = 0
+        else:
+            return None
 
         if conv[19] == 'Sim':
             internet_category = 1
         elif conv[19] == 'Não':
             internet_category = 0
+        else:
+            return None
 
         if conv[20] == 'Sim':
             romantic_category = 1
         elif conv[20] == 'Não':
             romantic_category = 0
+        else:
+            return None
 
         try:
             if 1 <= int(conv[21]) <= 5:
