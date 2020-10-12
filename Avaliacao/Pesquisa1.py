@@ -2,7 +2,7 @@ import json
 from io import StringIO
 class Pesquisa1 :
 
-    def convesao (data):
+    def convesao (self,data):
         io = StringIO(data)
         conv = json.load(io)
         sex_category = ''
@@ -41,9 +41,11 @@ class Pesquisa1 :
             else:
                 sex_category = 1
 
-        if conv[1].isnumeric():
+        try:
             if 15 <= int(conv[1]) <= 22:
-                age_caterory = int(conv[1])
+                age_category = int(conv[1])
+        except:
+            return  None
 
         if (conv[2] == 'Urbano') or (conv[2] == 'Rural'):
             if conv[2] == 'Urbano':
@@ -185,37 +187,77 @@ class Pesquisa1 :
         elif conv[20] == 'Não':
             romantic_category = 0
 
-        if conv[21].isnumeric():
+        try:
             if 1 <= int(conv[21]) <= 5:
                 famrel_category = int(conv[21])
+        except:
+            return None
 
-        if conv[22].isnumeric():
+        try:
             if 1 <= int(conv[22]) <= 5:
                 freetime_category = int(conv[22])
+        except:
+            return None
 
-        if conv[23].isnumeric():
+        try:
             if 1 <= int(conv[23]) <= 5:
                 goout_category = int(conv[23])
+        except:
+            return None
 
-        if conv[24].isnumeric():
+        try:
             if 1 <= int(conv[24]) <= 5:
                 dalc_category = int(conv[24])
+        except:
+            return None
 
-        if conv[25].isnumeric():
+        try:
             if 1 <= int(conv[25]) <= 5:
                 walc_category = int(conv[25])
+        except:
+            return None
 
-        if conv[26].isnumeric():
+        try:
             if 1 <= int(conv[26]) <= 5:
                 health_category = int(conv[26])
+        except:
+            return None
 
-        if conv[27].isnumeric():
+        try:
             if 0 <= int(conv[27]) <= 93:
                 absences_category = int(conv[27])
+        except:
+            return None
 
 
-
-
+        return (sex_category ,
+        age_category ,
+        address_category ,
+        famsize_category ,
+        Pstatus_category ,
+        Medu_category ,
+        Fedu_category ,
+        Mjob_category ,
+        Fjob_category ,
+        reason_category ,
+        guardian_category ,
+        traveltime_category ,
+        studytime_category ,
+        failures_category ,
+        schoolsup_category ,
+        famsup_category ,
+        activities_category ,
+        nursery_category ,
+        higher_category ,
+        internet_category ,
+        romantic_category ,
+        famrel_category,
+        freetime_category ,
+        goout_category ,
+        dalc_category ,
+        walc_category ,
+        health_category,
+        absences_category)
 
 
 
