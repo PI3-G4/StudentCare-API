@@ -94,16 +94,16 @@ def add_surveystudent():
 
     val3 = (request.json['json_data'],request.json['IDSURVEY'],request.json['IDSTUDENT'])
 
-    val4 = request.json['IDSURVEY']
+    val4 = [request.json['IDSURVEY']]
 
 
 
 
     try:
-        def pesquisa_nome(data):
+        def pesquisa_nome(data, idSurvey, idStudent):
             mycursor.execute(sql4,val4)
             myresult2 = mycursor.fetchall()
-            if myresult2 == 'Pesquisa studentcare':
+            if myresult2[0][0] == 'Pesquisa studentcare':
                 from Avaliacao.Pesquisa1 import Pesquisa1
                 x = Pesquisa1()
                 z = x.convesao(data)
@@ -113,7 +113,7 @@ def add_surveystudent():
                 y_pred_train = ml.predict(datas)
                 print(y_pred_train)
                 print(model.acuracia())
-                val5 = (y_pred_train, request.json['IDSURVEY'],request.json['IDSTUDENT'])
+                val5 = ("{}".format(y_pred_train.min()), idSurvey, idStudent)
                 mycursor.execute(sql5,val5)
                 mydb.commit()
                 ###val6 = (model.acuracia(), request.json['IDSURVEY'])
@@ -122,12 +122,12 @@ def add_surveystudent():
         if myresult[0][0] == 1:
             mycursor.execute(sql3,val3)
             mydb.commit()
-            pesquisa_nome(request.json['IDSURVEY'])
+            pesquisa_nome(request.json['json_data'],request.json['IDSURVEY'],request.json['IDSTUDENT'])
             return jsonify({}), 202
         else:
             mycursor.execute(sql,val)
             mydb.commit()
-            pesquisa_nome(request.json['IDSURVEY'])
+            pesquisa_nome(request.json['json_data'],request.json['IDSURVEY'],request.json['IDSTUDENT'])
             return jsonify({}), 201
 
     except Exception as error:
@@ -315,31 +315,9 @@ def login_institution():
         return jsonify({}), 500
 
 
-if __name__ == '__main__':
+
+if __name__ == '__main__' or __name__ != '__main__':
     created = Database()
     created.create()
-
-    #ML
-    model = MachineLearning()
-    ml = model.model
-    data = [[0, 15,  0,  1,  0,  4,  2,  1,  2,  0,  0,  1,  3,  0,  1,  0,
-        0,  0,  0,  0,  0,  3,  2,  2,  1,  1,  5,  0]]
-    y_pred_train = ml.predict(data)
-    print(y_pred_train)
-    print(model.acuracia())
-
     app.run()
 
-else:
-    created = Database()
-    created.create()
-    # ML
-    model = MachineLearning()
-    ml = model.model
-    data = [[0, 15, 0, 1, 0, 4, 2, 1, 2, 0, 0, 1, 3, 0, 1, 0,
-             0, 0, 0, 0, 0, 3, 2, 2, 1, 1, 5, 0]]
-    y_pred_train = ml.predict(data)
-    print(y_pred_train)
-    print(model.acuracia())
-
-    app.run()

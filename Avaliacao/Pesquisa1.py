@@ -121,7 +121,7 @@ class Pesquisa1 :
             Fjob_category = 2
         elif conv[8] == 'Em casa':
             Fjob_category = 3
-        elif conv[8] == 'Outro':
+        elif conv[8] == 'Outros':
             Fjob_category = 4
         else:
             return None
@@ -133,7 +133,7 @@ class Pesquisa1 :
             reason_category = 1
         elif conv[9] == 'Cursos':
             reason_category = 2
-        elif conv[9] == 'Outro':
+        elif conv[9] == 'Outros':
             reason_category = 3
         else:
             return None
@@ -228,9 +228,9 @@ class Pesquisa1 :
             return None
 
         try:
-            if 1 <= int(conv[21]) <= 5:
-                famrel_category = int(conv[21])
-            elif int(conv[21]) == 0:
+            if 1 <= int(float(conv[21])) <= 5:
+                famrel_category = int(float(conv[21]))
+            elif int(float(conv[21]))== 0:
                 famrel_category = 1
             else:
                 return None
@@ -238,9 +238,9 @@ class Pesquisa1 :
             return None
 
         try:
-            if 1 <= int(conv[22]) <= 5:
-                freetime_category = int(conv[22])
-            elif int(conv[22]) == 0:
+            if 1 <= int(float(conv[22])) <= 5:
+                freetime_category = int(float(conv[22]))
+            elif int(float(conv[22])) == 0:
                 freetime_category = 1
             else:
                 return None
@@ -248,9 +248,9 @@ class Pesquisa1 :
             return None
 
         try:
-            if 1 <= int(conv[23]) <= 5:
-                goout_category = int(conv[23])
-            elif int(conv[23]) == 0:
+            if 1 <= int(float(conv[23])) <= 5:
+                goout_category = int(float(conv[23]))
+            elif int(float(conv[23])) == 0:
                 goout_category = 1
             else:
                 return None
@@ -258,9 +258,9 @@ class Pesquisa1 :
             return None
 
         try:
-            if 1 <= int(conv[24]) <= 5:
-                dalc_category = int(conv[24])
-            elif int(conv[24]) == 0:
+            if 1 <= int(float(conv[24])) <= 5:
+                dalc_category = int(float(conv[24]))
+            elif int(float(conv[24])) == 0:
                 dalc_category = 1
             else:
                 return None
@@ -268,9 +268,9 @@ class Pesquisa1 :
             return None
 
         try:
-            if 1 <= int(conv[25]) <= 5:
-                walc_category = int(conv[25])
-            elif int(conv[25]) == 0:
+            if 1 <= int(float(conv[25])) <= 5:
+                walc_category = int(float(conv[25]))
+            elif int(float(conv[25])) == 0:
                 walc_category = 1
             else:
                 return None
@@ -278,9 +278,9 @@ class Pesquisa1 :
             return None
 
         try:
-            if 1 <= int(conv[26]) <= 5:
-                health_category = int(conv[26])
-            elif int(conv[26]) == 0:
+            if 1 <= int(float(conv[26])) <= 5:
+                health_category = int(float(conv[26]))
+            elif int(float(conv[26])) == 0:
                 health_category = 1
         except:
             return None
