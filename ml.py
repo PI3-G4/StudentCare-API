@@ -15,12 +15,8 @@ class MachineLearning:
     def import_cleaning_data(self):
         df_mat = pd.read_csv('./data/student-mat2.csv', sep=';')
         df_por = pd.read_csv('./data/student-por2.csv', sep=';')
-
         df_por_old = pd.read_csv('./data/student-por.csv', sep=';')
-        df_por_old = df_por_old.loc[(df_por_old.G1 >= 0) & (df_por_old.G1 <= 6.7)]
-
         df_mat_old = pd.read_csv('./data/student-mat.csv', sep=';')
-        df_mat_old = df_mat_old.loc[(df_mat_old.G1 >= 0) & (df_mat_old.G1 <= 6.7)]
 
         df = pd.concat([df_mat, df_por,df_por_old, df_mat_old], axis=0)
 

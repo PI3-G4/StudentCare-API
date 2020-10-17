@@ -8,6 +8,33 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
+@app.route('/student/<id_institution>/survey', methods=['GET'])
+def list_student_score():
+    mydb = mysql.connector.connect(
+        host=f'{Env.host}',
+        user=f'{Env.user}',
+        password=f'{Env.password}',
+        database=f'{Env.database}'
+    )
+
+    mycursor = mydb.cursor()
+    sql = 'SELECT S.NAME, SS.RESULT FROM  student S INNER JOIN surveystudens SS ON S.IDSTUDENT = SS.IDSTUDENT WHERE S.IDINSTITUTION = %s'
+    val = [request.json['id_institution']]
+
+    try:
+        mycursor.execute(sql,val)
+        myresult = mycursor.fetchall()
+        if myresult[0][0] == 0:
+            return jsonify({}),200
+        elif myresult[0][0] >=1:
+            return jsonify({}),200
+
+    except Exception as error:
+        print(error.args)
+        return jsonify({}), 500
+
+
+
 @app.route('/survey', methods=['POST'])
 def add_survey():
 
