@@ -8,8 +8,8 @@ app = Flask(__name__)
 app.url_map.strict_slashes = False
 
 
-@app.route('/student/<id_institution>/survey', methods=['GET'])
-def list_student_score():
+@app.route('/student/<id_institution>/surveys', methods=['GET'])
+def list_student_score(id_institution):
     mydb = mysql.connector.connect(
         host=f'{Env.host}',
         user=f'{Env.user}',
@@ -18,16 +18,18 @@ def list_student_score():
     )
 
     mycursor = mydb.cursor()
-    sql = 'SELECT S.NAME, SS.RESULT FROM  student S INNER JOIN surveystudens SS ON S.IDSTUDENT = SS.IDSTUDENT WHERE S.IDINSTITUTION = %s'
-    val = [request.json['id_institution']]
+    sql = 'SELECT S.NAME, SS.RESULT FROM  student S INNER JOIN surveystudents SS ON S.IDSTUDENT = SS.IDSTUDENT WHERE S.ID_INSTITUTION = %s'
 
     try:
-        mycursor.execute(sql,val)
+        mycursor.execute(sql,[id_institution])
         myresult = mycursor.fetchall()
-        if myresult[0][0] == 0:
+        payload = []
+        if len(myresult) == 0:
             return jsonify({}),200
-        elif myresult[0][0] >=1:
-            return jsonify({}),200
+        for result in myresult:
+            content = {'NAME': result[0], 'RESULT': result[1]}
+            payload.append(content)
+        return jsonify(payload), 200
 
     except Exception as error:
         print(error.args)
