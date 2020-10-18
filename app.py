@@ -18,16 +18,27 @@ def list_student_score(id_institution):
     )
 
     mycursor = mydb.cursor()
-    sql = 'SELECT S.NAME, SS.RESULT FROM  student S INNER JOIN surveystudents SS ON S.IDSTUDENT = SS.IDSTUDENT WHERE S.ID_INSTITUTION = %s'
+    sql = 'SELECT NAME,IDSURVEY FROM survey'
+
+    sql2 = 'SELECT S.NAME, SS.RESULT FROM  student S INNER JOIN surveystudents SS ON S.IDSTUDENT = SS.IDSTUDENT   WHERE S.ID_INSTITUTION = %s AND IDSURVEY = %s'
+
+
 
     try:
-        mycursor.execute(sql,[id_institution])
+        mycursor.execute(sql)
         myresult = mycursor.fetchall()
         payload = []
+        payload2 = []
         if len(myresult) == 0:
             return jsonify({}),200
         for result in myresult:
-            content = {'NAME': result[0], 'RESULT': result[1]}
+            payload2.clear()
+            mycursor.execute(sql2, [id_institution,result[1]])
+            myresult2 = mycursor.fetchall()
+            for result2 in myresult2:
+                content2 = {'name': result2[0],'score':result2[1]}
+                payload2.append(content2)
+            content = {'name': result[0],'itens':payload2.copy()}
             payload.append(content)
         return jsonify(payload), 200
 
