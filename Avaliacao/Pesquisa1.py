@@ -57,7 +57,7 @@ class Pesquisa1 :
         else:
             return None
 
-        if (conv[3] == 'Menor ou igual a 3 pessoas') or (conv[3] == 'Mais de 3 pessoas'):
+        if (conv[3] == 'Menor ou igual a 3 pessoas') or (conv[3] == 'Maior de 3 pessoas'):
             if conv[3] == 'Menos de 3 pessoas':
                 famsize_category = 0
             else:
